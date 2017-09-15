@@ -84,3 +84,7 @@ diversity <- df %>%
 # Check join: left_join, right_join
 
 physicodiversity <- dplyr::full_join(physicochem, diversity, by= "sample_title")
+p2 <- df %>% filter(Reactor.cycle==2) %>% 
+  ggplot(aes(x = Timepoint,y = Cell.density..cells.mL., fill = Cell.density..cells.mL.)) +geom_point(shape = 21, size = 4)
+
+p2 + scale_y_log10()
