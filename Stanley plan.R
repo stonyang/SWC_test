@@ -45,7 +45,42 @@ library(dplyr)
 mean(df[df$Reactor.phase == "Control", "ph"])
 physiochemical <- df %>% select(ph,temp,Conductivity)
 physiochemical.control <- df %>%
-filter(Reactor.phase == "Control") %>%
+  mutate(Condratio=Diversity...D0/temp) %>%
+  filter(Reactor.phase == "Control") %>%
 diversity <- df %>%
   filter(Reactor.phase == "Startup") %>%
   select(contains("Diversity"))
+meanph <- df %>% group_by(Reactor.phase) %>% summarise(mean.ph = mean(ph), mean.d2 = mean(Diversity...D2), sd.ph = sd(ph))
+filter(Reactor.phase == "Startup") %>%
+  select(contains("Diversity"))
+reactorcycle2 <- df %>% group_by(Reactor.cycle2) %>% summarise(sd.Reactor.cycle2 = mean(log10(Cell.density..cells.mL.))
+                                                               
+                                                               physiochem <- df %>% select(ph,temp,Conductivity)                                                               
+                                                               View(physiochem)
+                                                              
+diversity <- df %>% select(ph,temp,Diversity) 
+meanph <- df %>%
+  filter(Reactor.cycle == 2) %>% 
+  group_by(Reactor.phase) %>%
+  mutate(condratio=Conductivity/temp) %>% 
+  summarise(mean.ph = mean(ph),
+            mean.d2 = mean(Diversity...D2),
+            sd.ph = sd(ph),
+            sd.d2 = sd(Diversity...D2),
+            avelog10.celldens = mean(log10(Cell.density..cells.mL.)),
+            mean.condrat = mean(condratio))
+                                            
+physicochem <- df %>%
+  select(sample_title,temp,Conductivity,ph)
+diversity <- df %>%
+  select(sample_title,temp,Conductivity,ph)
+physicochem <- df %>%
+  select(sample_title, temp, ph, Conductivity)
+
+diversity <- df %>%
+  select(sample_title,contains(("Diversity")))
+
+# Merging data sets;  should have one common characteristic (KEY, eg; sample name)
+# Check join: left_join, right_join
+
+physicodiversity <- dplyr::full_join(physicochem, diversity, by= "sample_title")
